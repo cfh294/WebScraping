@@ -51,7 +51,9 @@ if __name__ == "__main__":
 			# within store info, grab the address and the city/zip ifno
 			address = si.findAll("div", {"class": DIV_STORE_ADDRESS})[0].text
 			cityTag = si.findAll("div", {"class": DIV_STORE_CITY})[0]
-			phone = si.findAll("div", {"class": DIV_STORE_PHONE})[0]
+
+			# Phone numbers are in the div as "Phone XXX-XXX-XXXX"
+			phone = si.findAll("div", {"class": DIV_STORE_PHONE})[0].text.split("Phone ")[1]
 
 			address = address.upper()
 
@@ -71,7 +73,7 @@ if __name__ == "__main__":
 			geom = geocoder(gcFeed, key=BING_KEY)
 			x, y = 0.0, 0.0
 
-			# grab coordinates from json 
+			# grab coordinates from json
 			try:
 				successes += 1
 				x, y = geom.json["lng"], geom.json["lat"]
