@@ -89,16 +89,16 @@ if __name__ == "__main__":
 	                        password=POSTGRESQL_PASSWORD)
 	cur = cnxn.cursor()
 	sql = """DROP TABLE IF EXISTS quick_chek_locations;
-	REATE TABLE quick_chek_locations(
-	ID           INT PRIMARY KEY NOT NULL,
-	STREET       TEXT NOT NULL,
-	CITY         TEXT NOT NULL,
-	STATE        TEXT NOT NULL,
-	ZIP          TEXT NOT NULL,
-	PHONE        TEXT NOT NULL,
-	X            DOUBLE PRECISION NOT NULL,
-	Y            DOUBLE PRECISION NOT NULL,
-	SHAPE        GEOMETRY);"""
+		CREATE TABLE quick_chek_locations(
+		ID           INT PRIMARY KEY NOT NULL,
+		STREET       TEXT NOT NULL,
+		CITY         TEXT NOT NULL,
+		STATE        TEXT NOT NULL,
+		ZIP          TEXT NOT NULL,
+		PHONE        TEXT NOT NULL,
+		X            DOUBLE PRECISION NOT NULL,
+		Y            DOUBLE PRECISION NOT NULL,
+		SHAPE        GEOMETRY);"""
 	cur.execute(sql)
 
 	# insert the locations into the table
@@ -107,8 +107,8 @@ if __name__ == "__main__":
 		                                                 row[4], row[5], row[6], row[7]
 
 		sql = """INSERT INTO quick_chek_locations (ID, STREET, CITY, STATE, ZIP, PHONE, X, Y, SHAPE)
-		VALUES ({0}, '{1}', '{2}', '{3}', '{4}', '{5}', {6}, {7},
-		ST_SetSRID(ST_MakePoint({6},{7}), 4326));""".format(oid, street, city, state, zipcode, phone, x, y)
+			VALUES ({0}, '{1}', '{2}', '{3}', '{4}', '{5}', {6}, {7},
+			ST_SetSRID(ST_MakePoint({6},{7}), 4326));""".format(oid, street, city, state, zipcode, phone, x, y)
 		cur.execute(sql)
 
 	if fails == 0:

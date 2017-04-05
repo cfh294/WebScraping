@@ -29,13 +29,13 @@ if __name__ == "__main__":
 	                        password=POSTGRESQL_PASSWORD)
 	cur = cnxn.cursor()
 	sql = """DROP TABLE IF EXISTS nj_diner_locations;
-	CREATE TABLE nj_diner_locations(
-	ID           INT PRIMARY KEY NOT NULL,
-	ADDRESS      TEXT NOT NULL,
-	PHONE        TEXT NOT NULL,
-	X            DOUBLE PRECISION NOT NULL,
-	Y            DOUBLE PRECISION NOT NULL,
-	SHAPE        GEOMETRY);"""
+		CREATE TABLE nj_diner_locations(
+		ID           INT PRIMARY KEY NOT NULL,
+		ADDRESS      TEXT NOT NULL,
+		PHONE        TEXT NOT NULL,
+		X            DOUBLE PRECISION NOT NULL,
+		Y            DOUBLE PRECISION NOT NULL,
+		SHAPE        GEOMETRY);"""
 	cur.execute(sql)
 
 	# Begin the scraping process
@@ -69,8 +69,8 @@ if __name__ == "__main__":
 			address = address.replace("'", "''")
 
 		sql = """INSERT INTO nj_diner_locations (ID, ADDRESS, PHONE, X, Y, SHAPE)
-		VALUES ({0}, '{1}', '{2}', {3}, {4},
-		ST_SetSRID(ST_MakePoint({3},{4}), 4326));""".format(oid, address, phone, x, y)
+			VALUES ({0}, '{1}', '{2}', {3}, {4},
+			ST_SetSRID(ST_MakePoint({3},{4}), 4326));""".format(oid, address, phone, x, y)
 		cur.execute(sql)
 		oid += 1
 
