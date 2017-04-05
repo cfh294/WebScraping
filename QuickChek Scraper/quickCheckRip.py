@@ -75,11 +75,10 @@ if __name__ == "__main__":
 
 			# grab coordinates from json
 			try:
-				successes += 1
 				x, y = geom.json["lng"], geom.json["lat"]
+				successes += 1
 			except KeyError:
 				fails += 1
-				pass
 
 			# create a row and add it to the overall list
 			qcLocations.append([oid, address, city, state, zipcode, phone, x, y])
