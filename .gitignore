@@ -90,6 +90,7 @@ ENV/
 
 # Other
 .gitignore
+.ignore
 .DS_Store
 .idea
 .gitignore.swp
