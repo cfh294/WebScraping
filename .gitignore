@@ -87,3 +87,11 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Other
+.gitignore
+.DS_Store
+.idea
+.gitignore.swp
+.git
+
