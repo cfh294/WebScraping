@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+"""
+quickCheckRip.py
+code: Connor Hornibrook (c) 2017
+
+Script that iterates through the 6 URL's containing information on all QuickChek locations and scrapes them into
+a PostgreSQL spatial database. Bing used for geocoding the addresses.
+"""
+
 import requests, psycopg2, os
 from BeautifulSoup import BeautifulSoup
 from geocoder import bing as geocoder
@@ -23,9 +31,7 @@ DIV_STORE_PHONE = "div-store-phone"
 
 if __name__ == "__main__":
 
-	# a list of quick check info rows
 	qcLocations = []
-
 	oid = 1
 	fails = 0
 	successes = 0
@@ -65,6 +71,7 @@ if __name__ == "__main__":
 			geom = geocoder(gcFeed, key=BING_KEY)
 			x, y = 0.0, 0.0
 
+			# grab coordinates from json 
 			try:
 				successes += 1
 				x, y = geom.json["lng"], geom.json["lat"]
@@ -96,12 +103,13 @@ SHAPE        GEOMETRY);"""
 	# insert the locations into the table
 	for row in qcLocations:
 		oid, street, city, state, zipcode, phone, x, y = row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+
 		sql = """INSERT INTO quick_chek_locations (ID, STREET, CITY, STATE, ZIP, PHONE, X, Y, SHAPE)
 VALUES ({0}, '{1}', '{2}', '{3}', '{4}', '{5}', {6}, {7},
 ST_SetSRID(ST_MakePoint({6},{7}), 4326));""".format(oid, street, city, state, zipcode, phone, x, y)
 		cur.execute(sql)
 
-	if successes == 0:
+	if fails == 0:
 		cnxn.commit()
 	else:
 		print "{} fails".format(successes)
