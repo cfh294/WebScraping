@@ -31,6 +31,7 @@ if __name__ == "__main__":
 	sql = """DROP TABLE IF EXISTS nj_diner_locations;
 		 CREATE TABLE nj_diner_locations(
 		 ID           INT PRIMARY KEY NOT NULL,
+		 NAME         TEXT NOT NULL,
 		 ADDRESS      TEXT NOT NULL,
 		 PHONE        TEXT NOT NULL,
 		 X            DOUBLE PRECISION NOT NULL,
@@ -64,13 +65,10 @@ if __name__ == "__main__":
 		except KeyError:
 			fails += 1
 
-		# replace single quotes with doubles so this will work with SQL syntax
-		if "'" in address:
-			address = address.replace("'", "''")
-
-		sql = """INSERT INTO nj_diner_locations (ID, ADDRESS, PHONE, X, Y, SHAPE)
-			 VALUES ({0}, '{1}', '{2}', {3}, {4},
-			 ST_SetSRID(ST_MakePoint({3},{4}), 4326));""".format(oid, address, phone, x, y)
+		sql = """INSERT INTO nj_diner_locations (ID, NAME, ADDRESS, PHONE, X, Y, SHAPE)
+			 VALUES ({0}, '{1}', '{2}', '{3}', {4}, {5},
+			 ST_SetSRID(ST_MakePoint({4},{5}), 4326));""".format(oid, dinerName.replace("'", "''"),
+		                                                         address.replace("'", "''"), phone, x, y)
 		cur.execute(sql)
 		oid += 1
 
