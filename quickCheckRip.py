@@ -114,4 +114,4 @@ if __name__ == "__main__":
 	if fails == 0:
 		cnxn.commit()
 	else:
-		print "{} fails".format(successes)
+		print "{} fails".format(fails)
